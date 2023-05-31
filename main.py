@@ -1,3 +1,4 @@
+import os
 from tkinter import *
 import pandas
 import random
@@ -34,8 +35,14 @@ def new_word():
 
 def next_card():
     global card_flipped
+
+    if not words_dict:
+        os.remove("./data/words_to_learn.csv")
+        generate_dict()
+
     if card_flipped is not None:
         window.after_cancel(card_flipped)
+
     new_word()
     canvas.itemconfig(canvas_img, image=front_card_img)
     canvas.itemconfig(title_text, text="French", fill="black")
@@ -84,6 +91,5 @@ wrong_button.grid(column=0, row=1)
 if words_data is None:
     generate_dict()
 
-if words_dict:
-    next_card()
-    window.mainloop()
+next_card()
+window.mainloop()
